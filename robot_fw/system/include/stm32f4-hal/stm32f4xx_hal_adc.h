@@ -139,6 +139,8 @@ typedef struct
   __IO HAL_ADC_StateTypeDef     State;                       /*!< ADC communication state */
 
   __IO uint32_t                 ErrorCode;                   /*!< ADC Error code */
+
+  void*							user_param;
 }ADC_HandleTypeDef;
 
 /** 

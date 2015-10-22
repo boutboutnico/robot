@@ -142,6 +142,7 @@ typedef struct
   
   __IO uint32_t                  ErrorCode;       /* USART Error code                    */
 
+  void*							user_param;
 }USART_HandleTypeDef;
 /**
   * @}

@@ -132,6 +132,7 @@ typedef struct
 
   __IO uint32_t              ErrorCode;  /*!<  I2C Error code                */
 
+  void* 					user_param;
 }I2C_HandleTypeDef;
 /**
   * @}
