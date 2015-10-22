@@ -1,3 +1,6 @@
 [submodule "robot_fw/src/external/freertos"]
 	path = robot_fw/src/external/freertos
 	url = https://github.com/cjlano/freertos
+[submodule "robot_fw/src/external/femtin"]
+	path = robot_fw/src/external/femtin
+	url = https://github.com/boutboutnico/femtin
