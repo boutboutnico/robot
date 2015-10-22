@@ -1,0 +1,3 @@
+[submodule "robot_fw/src/external/freertos"]
+	path = robot_fw/src/external/freertos
+	url = https://github.com/cjlano/freertos
