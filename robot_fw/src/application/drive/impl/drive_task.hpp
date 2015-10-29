@@ -15,48 +15,51 @@
 
 /// ================================================================================================
 ///
-/// \file	appli_conf.hpp
+/// \file	drive_task.hpp
 /// \brief
 /// \date	28/10/2015
 /// \author	nboutin
 ///
 /// ================================================================================================
-#ifndef APPLICATION_APPLI_CONF_HPP_
-#define APPLICATION_APPLI_CONF_HPP_
+#ifndef APPLICATION_DRIVE_IMPL_DRIVE_TASK_HPP_
+#define APPLICATION_DRIVE_IMPL_DRIVE_TASK_HPP_
 
 /// === Includes	================================================================================
 
 #include "femtin/freeRTOS_wrapper/task/task.hpp"
-#include "femtin/string.hpp"
-#include "FreeRTOSConfig.h"
+#include "femtin/core/system_controller/component_registry.hpp"
 
 /// === Namespaces	================================================================================
 
 namespace application
 {
+namespace drive
+{
 
-/// === Public Declarations	========================================================================
+/// === Class Declarations	========================================================================
 
-const uint8_t COMPONENT_COUNT = 1;
-const uint8_t COMPONENT_NAME_LEN_MAX = configMAX_TASK_NAME_LEN;
+class Drive_Task : public femtin::os::Task
+{
+public:
+	/// === Public Constants	====================================================================
+	/// === Public Declarations	====================================================================
 
-const uint8_t TASK_COUNT = 1	/// Component Registry Task
-							+ COMPONENT_COUNT 		/// Application Component Tasks
-							+ 1						/// IDLE Task used
-							+ 1;					/// FreeRTOS Timer used
+	Drive_Task();
 
-const UBaseType_t COMPONENT_REGISTRY_TASK_PRIO = 4;
-const uint16_t COMPONENT_REGISTRY_TASK_STACK_SIZE = (1024 / 4);
-const femtin::String<COMPONENT_NAME_LEN_MAX> COMPONENT_REGISTRY_TASK_NAME("CompReg");
+	bool initialize(femtin::system_controller::Component_Registry& _comp_reg);
 
-const UBaseType_t DRIVE_TASK_PRIO = 3;
-const uint16_t DRIVE_TASK_STACK_SIZE = (576 / 4);
-const femtin::String<COMPONENT_NAME_LEN_MAX> DRIVE_TASK_NAME("Drive");
+	virtual void run();
 
-/// Task priority 1 is reserved for Timer Service Task
+private:
+	/// === Private Constants	====================================================================
+	/// === Private Declarations	================================================================
+	/// === Private Attributes	====================================================================
+};
+
+/// === Inlines Definitions	========================================================================
 
 /// ------------------------------------------------------------------------------------------------
 }
-
+}
 #endif
 /// === END OF FILE	================================================================================

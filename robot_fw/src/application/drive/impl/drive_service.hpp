@@ -15,47 +15,45 @@
 
 /// ================================================================================================
 ///
-/// \file	appli_conf.hpp
+/// \file	drive_service.hpp
 /// \brief
 /// \date	28/10/2015
 /// \author	nboutin
 ///
 /// ================================================================================================
-#ifndef APPLICATION_APPLI_CONF_HPP_
-#define APPLICATION_APPLI_CONF_HPP_
+#ifndef APPLICATION_DRIVE_IMPL_DRIVE_SERVICE_HPP_
+#define APPLICATION_DRIVE_IMPL_DRIVE_SERVICE_HPP_
 
 /// === Includes	================================================================================
 
-#include "femtin/freeRTOS_wrapper/task/task.hpp"
-#include "femtin/string.hpp"
-#include "FreeRTOSConfig.h"
+#include "drive/i_drive.hpp"
 
 /// === Namespaces	================================================================================
 
 namespace application
 {
 
-/// === Public Declarations	========================================================================
+namespace drive
+{
+/// === Forward Declarations	====================================================================
+/// === Enumerations	============================================================================
+/// === Class Declarations	========================================================================
 
-const uint8_t COMPONENT_COUNT = 1;
-const uint8_t COMPONENT_NAME_LEN_MAX = configMAX_TASK_NAME_LEN;
+class Drive_Service : public I_Drive
+{
+public:
+	/// === Constants	============================================================================
+	/// === Public Declarations	====================================================================
 
-const uint8_t TASK_COUNT = 1	/// Component Registry Task
-							+ COMPONENT_COUNT 		/// Application Component Tasks
-							+ 1						/// IDLE Task used
-							+ 1;					/// FreeRTOS Timer used
+private:
+	/// === Private Declarations	================================================================
+	/// === Private Attributs	====================================================================
+};
 
-const UBaseType_t COMPONENT_REGISTRY_TASK_PRIO = 4;
-const uint16_t COMPONENT_REGISTRY_TASK_STACK_SIZE = (1024 / 4);
-const femtin::String<COMPONENT_NAME_LEN_MAX> COMPONENT_REGISTRY_TASK_NAME("CompReg");
-
-const UBaseType_t DRIVE_TASK_PRIO = 3;
-const uint16_t DRIVE_TASK_STACK_SIZE = (576 / 4);
-const femtin::String<COMPONENT_NAME_LEN_MAX> DRIVE_TASK_NAME("Drive");
-
-/// Task priority 1 is reserved for Timer Service Task
+/// === Inlines Declarations	====================================================================
 
 /// ------------------------------------------------------------------------------------------------
+}
 }
 
 #endif

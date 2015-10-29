@@ -15,47 +15,36 @@
 
 /// ================================================================================================
 ///
-/// \file	appli_conf.hpp
+/// \file	i_drive.hpp
 /// \brief
-/// \date	28/10/2015
+/// \date	29/10/2015
 /// \author	nboutin
 ///
 /// ================================================================================================
-#ifndef APPLICATION_APPLI_CONF_HPP_
-#define APPLICATION_APPLI_CONF_HPP_
+#ifndef APPLICATION_DRIVE_I_DRIVE_HPP_
+#define APPLICATION_DRIVE_I_DRIVE_HPP_
 
 /// === Includes	================================================================================
-
-#include "femtin/freeRTOS_wrapper/task/task.hpp"
-#include "femtin/string.hpp"
-#include "FreeRTOSConfig.h"
-
 /// === Namespaces	================================================================================
 
 namespace application
 {
 
-/// === Public Declarations	========================================================================
+namespace drive
+{
 
-const uint8_t COMPONENT_COUNT = 1;
-const uint8_t COMPONENT_NAME_LEN_MAX = configMAX_TASK_NAME_LEN;
+/// === Forward Declarations	====================================================================
+/// === Enumerations	============================================================================
+/// === Class Declarations	========================================================================
 
-const uint8_t TASK_COUNT = 1	/// Component Registry Task
-							+ COMPONENT_COUNT 		/// Application Component Tasks
-							+ 1						/// IDLE Task used
-							+ 1;					/// FreeRTOS Timer used
+class I_Drive
+{
+public:
+	/// === Public Declarations	====================================================================
 
-const UBaseType_t COMPONENT_REGISTRY_TASK_PRIO = 4;
-const uint16_t COMPONENT_REGISTRY_TASK_STACK_SIZE = (1024 / 4);
-const femtin::String<COMPONENT_NAME_LEN_MAX> COMPONENT_REGISTRY_TASK_NAME("CompReg");
-
-const UBaseType_t DRIVE_TASK_PRIO = 3;
-const uint16_t DRIVE_TASK_STACK_SIZE = (576 / 4);
-const femtin::String<COMPONENT_NAME_LEN_MAX> DRIVE_TASK_NAME("Drive");
-
-/// Task priority 1 is reserved for Timer Service Task
-
+};
 /// ------------------------------------------------------------------------------------------------
+}
 }
 
 #endif

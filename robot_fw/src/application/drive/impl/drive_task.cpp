@@ -15,48 +15,54 @@
 
 /// ================================================================================================
 ///
-/// \file	appli_conf.hpp
+/// \file	drive_task.cpp
 /// \brief
 /// \date	28/10/2015
 /// \author	nboutin
 ///
 /// ================================================================================================
-#ifndef APPLICATION_APPLI_CONF_HPP_
-#define APPLICATION_APPLI_CONF_HPP_
+#include "drive_task.hpp"
+using namespace application::drive;
 
 /// === Includes	================================================================================
 
-#include "femtin/freeRTOS_wrapper/task/task.hpp"
-#include "femtin/string.hpp"
-#include "FreeRTOSConfig.h"
+#include "femtin/freeRTOS_wrapper/delay.hpp"
+#include "appli_conf.hpp"
+#include "bsp/trace_uart/trace_uart.hpp"
 
 /// === Namespaces	================================================================================
 
-namespace application
+using namespace femtin;
+using namespace femtin::os;
+using namespace board::mcu;
+
+/// === Public Definitions	========================================================================
+
+Drive_Task::Drive_Task()
+		: Task(application::DRIVE_TASK_NAME.c_str(), application::DRIVE_TASK_STACK_SIZE,
+				application::DRIVE_TASK_PRIO)
 {
-
-/// === Public Declarations	========================================================================
-
-const uint8_t COMPONENT_COUNT = 1;
-const uint8_t COMPONENT_NAME_LEN_MAX = configMAX_TASK_NAME_LEN;
-
-const uint8_t TASK_COUNT = 1	/// Component Registry Task
-							+ COMPONENT_COUNT 		/// Application Component Tasks
-							+ 1						/// IDLE Task used
-							+ 1;					/// FreeRTOS Timer used
-
-const UBaseType_t COMPONENT_REGISTRY_TASK_PRIO = 4;
-const uint16_t COMPONENT_REGISTRY_TASK_STACK_SIZE = (1024 / 4);
-const femtin::String<COMPONENT_NAME_LEN_MAX> COMPONENT_REGISTRY_TASK_NAME("CompReg");
-
-const UBaseType_t DRIVE_TASK_PRIO = 3;
-const uint16_t DRIVE_TASK_STACK_SIZE = (576 / 4);
-const femtin::String<COMPONENT_NAME_LEN_MAX> DRIVE_TASK_NAME("Drive");
-
-/// Task priority 1 is reserved for Timer Service Task
-
-/// ------------------------------------------------------------------------------------------------
+	suspend();
 }
 
-#endif
+/// ------------------------------------------------------------------------------------------------
+
+bool Drive_Task::initialize(femtin::system_controller::Component_Registry& _comp_reg)
+{
+	(void) _comp_reg;
+	return true;
+}
+
+/// ------------------------------------------------------------------------------------------------
+
+void Drive_Task::run()
+{
+	for (;;)
+	{
+		trace << "[Drive] I am alive" << endl;
+
+		task_delay_until(unit::millisecond(5000));
+	}
+}
+
 /// === END OF FILE	================================================================================

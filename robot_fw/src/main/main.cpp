@@ -9,12 +9,12 @@
 
 #include "FreeRTOS.h"
 #include "femtin/freeRTOS_wrapper/task/task.hpp"
-//#include "system_controller/component_registry.hpp"
+#include "system_controller/robot_registry.hpp"
 #include "bsp/trace_uart/trace_uart.hpp"
 
 /// === Namespaces	================================================================================
 
-//using namespace application::system_controller;
+using namespace application::system_controller;
 
 /// === Public Definitions	========================================================================
 
@@ -29,9 +29,7 @@ int main(int argc, char* argv[])
 
 	board::mcu::trace.initialize(115200);
 
-	board::mcu::trace << "Trace is ready" << femtin::endl;
-
-//	static ComponentRegistry comp_reg;
+	static Robot_Registry robot_reg;
 
 	vTaskStartScheduler();    /// should never return
 }
@@ -39,4 +37,3 @@ int main(int argc, char* argv[])
 #pragma GCC diagnostic pop
 
 /// === END OF FILE	================================================================================
-
