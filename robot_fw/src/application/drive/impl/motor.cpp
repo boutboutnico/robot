@@ -50,7 +50,7 @@ bool Motor::initialize()
 	/// Enable TIM clock
 	MOTOR_PWM_TIM_CLK_ENABLE();
 
-	/// Enable TIM4 GPIO PWM
+	/// Enable TIM GPIO PWM
 	MOTOR_PWM_GPIO_CLK_ENABLE();
 
 	///	--- GPIOs
@@ -67,9 +67,16 @@ bool Motor::initialize()
 
 	///	--- Timer
 
+	/// timer_tick_frequency = Timer_default_frequency / (prescaller_set + 1)
+	/// timer_tick_frequency = 84000000 / (0 + 1) = 84000000
+	/// PWM_frequency = timer_tick_frequency / (TIM_Period + 1)
+	///	TIM_Period = timer_tick_frequency / PWM_frequency - 1
+	/// In our case, for 10Khz PWM_frequency, set Period to
+	/// TIM_Period = 84000000 / 10000 - 1 = 8399
+
 	TIM_handle_.Instance = const_cast<TIM_TypeDef*>(MOTOR_PWM_TIMER);
 	TIM_handle_.Init.Prescaler = 0;
-	TIM_handle_.Init.Period = 8399;
+	TIM_handle_.Init.Period = 8399;    /// 10kHz
 	TIM_handle_.Init.ClockDivision = 0;
 	TIM_handle_.Init.CounterMode = TIM_COUNTERMODE_UP;
 
@@ -85,6 +92,7 @@ bool Motor::initialize()
 	TIM_OC_config_.OCFastMode = TIM_OCFAST_DISABLE;
 
 	/// Motor right pulse value
+	/// pulse_length = ((TIM_Period + 1) * DutyCycle) / 100 - 1
 	TIM_OC_config_.Pulse = 2099;
 	if (HAL_TIM_PWM_ConfigChannel(&TIM_handle_, &TIM_OC_config_, TIM_CHANNEL_1) != HAL_OK)
 	{
