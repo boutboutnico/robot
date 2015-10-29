@@ -39,8 +39,9 @@ using namespace board::mcu;
 /// === Public Definitions	========================================================================
 
 Drive_Task::Drive_Task()
-		: Task(application::DRIVE_TASK_NAME.c_str(), application::DRIVE_TASK_STACK_SIZE,
-				application::DRIVE_TASK_PRIO)
+		: 	Task(application::DRIVE_TASK_NAME.c_str(), application::DRIVE_TASK_STACK_SIZE,
+					application::DRIVE_TASK_PRIO),
+			motor_()
 {
 	suspend();
 }
@@ -50,7 +51,7 @@ Drive_Task::Drive_Task()
 bool Drive_Task::initialize(femtin::system_controller::Component_Registry& _comp_reg)
 {
 	(void) _comp_reg;
-	return true;
+	return motor_.initialize();
 }
 
 /// ------------------------------------------------------------------------------------------------

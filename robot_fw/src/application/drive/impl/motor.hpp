@@ -15,54 +15,56 @@
 
 /// ================================================================================================
 ///
-/// \file	drive_task.hpp
+/// \file	motor.hpp
 /// \brief
-/// \date	28/10/2015
+/// \date	29/10/2015
 /// \author	nboutin
 ///
 /// ================================================================================================
-#ifndef APPLICATION_DRIVE_IMPL_DRIVE_TASK_HPP_
-#define APPLICATION_DRIVE_IMPL_DRIVE_TASK_HPP_
+#ifndef APPLICATION_DRIVE_IMPL_MOTOR_HPP_
+#define APPLICATION_DRIVE_IMPL_MOTOR_HPP_
 
 /// === Includes	================================================================================
 
-#include "femtin/freeRTOS_wrapper/task/task.hpp"
-#include "femtin/core/system_controller/component_registry.hpp"
-#include "motor.hpp"
+#include "stm32f4xx_hal.h"
 
 /// === Namespaces	================================================================================
 
 namespace application
 {
+
 namespace drive
 {
-
+/// === Forward Declarations	====================================================================
+/// === Enumerations	============================================================================
 /// === Class Declarations	========================================================================
 
-class Drive_Task : public femtin::os::Task
+class Motor
 {
 public:
 	/// === Public Constants	====================================================================
 	/// === Public Declarations	====================================================================
 
-	Drive_Task();
+	Motor();
 
-	bool initialize(femtin::system_controller::Component_Registry& _comp_reg);
-
-	virtual void run();
+	bool initialize();
 
 private:
-	/// === Private Constants	====================================================================
+	///	=== Private Constants	====================================================================
 	/// === Private Declarations	================================================================
 	/// === Private Attributes	====================================================================
 
-	Motor motor_;
+	TIM_HandleTypeDef TIM_handle_;
+	TIM_OC_InitTypeDef TIM_OC_config_;
 };
 
 /// === Inlines Definitions	========================================================================
 
+///	=== Non-Members Definitions	====================================================================
+
 /// ------------------------------------------------------------------------------------------------
-}
-}
+}/// name
+}    /// sub_name
+
 #endif
 /// === END OF FILE	================================================================================
