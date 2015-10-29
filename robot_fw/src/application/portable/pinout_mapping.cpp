@@ -60,6 +60,7 @@ const DMA_Stream_TypeDef* JOYSTICK_ADC_DMA = DMA2_Stream4;
 
 const TIM_TypeDef* MOTOR_PWM_TIMER = TIM3;
 const GPIO_TypeDef* MOTOR_PWM_RIGHT_GPIO_PORT = GPIOC;
+const GPIO_TypeDef* MOTOR_RIGHT_ENABLE_GPIO_PORT = GPIOA;
 
 }
 

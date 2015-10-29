@@ -58,11 +58,48 @@ bool Drive_Task::initialize(femtin::system_controller::Component_Registry& _comp
 
 void Drive_Task::run()
 {
+	const auto time = unit::millisecond(2000);
+
 	for (;;)
 	{
-		trace << "[Drive] I am alive" << endl;
+		motor_.backward();
+		trace << "[Drive] Backward" << endl;
 
-		task_delay_until(unit::millisecond(5000));
+		motor_.duty_cycle(0);
+		trace << "[Drive] duty = 0" << endl;
+		task_delay_until(time);
+
+		motor_.duty_cycle(20);
+		trace << "[Drive] duty = 20" << endl;
+		task_delay_until(time);
+
+		motor_.duty_cycle(40);
+		trace << "[Drive] duty = 40" << endl;
+		task_delay_until(time);
+
+		motor_.duty_cycle(60);
+		trace << "[Drive] duty = 60" << endl;
+		task_delay_until(time);
+
+		motor_.duty_cycle(80);
+		trace << "[Drive] duty = 80" << endl;
+		task_delay_until(time);
+
+		motor_.duty_cycle(100);
+		trace << "[Drive] duty = 100" << endl;
+		task_delay_until(time);
+
+		motor_.forward();
+		trace << "[Drive] Forward" << endl;
+		task_delay_until(time);
+
+		motor_.duty_cycle(80);
+		trace << "[Drive] duty = 80" << endl;
+		task_delay_until(time);
+
+		motor_.duty_cycle(60);
+		trace << "[Drive] duty = 60" << endl;
+		task_delay_until(time);
 	}
 }
 

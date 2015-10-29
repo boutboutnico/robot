@@ -153,19 +153,21 @@ inline void JOYSTICK_ADC_DMA_CLK_ENABLE()
 ///	--- TIM4 - Motor PWM	------------------------------------------------------------------------
 
 extern const TIM_TypeDef* MOTOR_PWM_TIMER;    /// TIM3
+
 extern const GPIO_TypeDef* MOTOR_PWM_RIGHT_GPIO_PORT;    /// GPIOC
 const uint16_t MOTOR_PWM_RIGHT_PIN = GPIO_PIN_6;
 const uint16_t MOTOR_PWM_RIGHT_TIMER_CHANNEL = TIM_CHANNEL_1;
 
-inline void MOTOR_PWM_TIM_CLK_ENABLE()
+extern const GPIO_TypeDef* MOTOR_RIGHT_ENABLE_GPIO_PORT;	/// GPIOA
+const uint16_t MOTOR_RIGHT_ENABLE_PIN = GPIO_PIN_15;
+
+inline void MOTOR_PWM_CLK_ENABLE()
 {
 	__HAL_RCC_TIM3_CLK_ENABLE()
 	;
-}
-
-inline void MOTOR_PWM_GPIO_CLK_ENABLE()
-{
 	__HAL_RCC_GPIOC_CLK_ENABLE()
+	;
+	__HAL_RCC_GPIOA_CLK_ENABLE()
 	;
 }
 

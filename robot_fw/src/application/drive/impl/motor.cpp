@@ -46,22 +46,24 @@ Motor::Motor()
 bool Motor::initialize()
 {
 	/// --- Clocks
-
-	/// Enable TIM clock
-	MOTOR_PWM_TIM_CLK_ENABLE();
-
-	/// Enable TIM GPIO PWM
-	MOTOR_PWM_GPIO_CLK_ENABLE();
+	MOTOR_PWM_CLK_ENABLE();
 
 	///	--- GPIOs
 
+	/// Motor right enable
 	GPIO_InitTypeDef GPIO_init;
+	GPIO_init.Pin = MOTOR_RIGHT_ENABLE_PIN;
+	GPIO_init.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_init.Pull = GPIO_PULLUP;
+	GPIO_init.Speed = GPIO_SPEED_LOW;
+	HAL_GPIO_Init(const_cast<GPIO_TypeDef*>(MOTOR_RIGHT_ENABLE_GPIO_PORT), &GPIO_init);
+	forward();
+
+	/// Motor right PWM
 	GPIO_init.Mode = GPIO_MODE_AF_PP;
 	GPIO_init.Pull = GPIO_PULLUP;
 	GPIO_init.Speed = GPIO_SPEED_HIGH;
 	GPIO_init.Alternate = GPIO_AF2_TIM3;
-
-	/// Motor right
 	GPIO_init.Pin = MOTOR_PWM_RIGHT_PIN;
 	HAL_GPIO_Init(const_cast<GPIO_TypeDef*>(MOTOR_PWM_RIGHT_GPIO_PORT), &GPIO_init);
 
@@ -93,8 +95,8 @@ bool Motor::initialize()
 
 	/// Motor right pulse value
 	/// pulse_length = ((TIM_Period + 1) * DutyCycle) / 100 - 1
-	TIM_OC_config_.Pulse = 2099;
-	if (HAL_TIM_PWM_ConfigChannel(&TIM_handle_, &TIM_OC_config_, TIM_CHANNEL_1) != HAL_OK)
+	TIM_OC_config_.Pulse = 0;
+	if (HAL_TIM_PWM_ConfigChannel(&TIM_handle_, &TIM_OC_config_, MOTOR_PWM_RIGHT_TIMER_CHANNEL) != HAL_OK)
 	{
 		return false;
 	}
@@ -110,6 +112,18 @@ bool Motor::initialize()
 }
 
 /// ------------------------------------------------------------------------------------------------
+
+void Motor::duty_cycle(uint8_t _duty)
+{
+	HAL_TIM_PWM_Stop(&TIM_handle_, MOTOR_PWM_RIGHT_TIMER_CHANNEL);
+
+	if (_duty == 0) TIM_OC_config_.Pulse = 0;
+	else TIM_OC_config_.Pulse = ((8399 + 1) * _duty) / 100 - 1;
+	HAL_TIM_PWM_ConfigChannel(&TIM_handle_, &TIM_OC_config_, MOTOR_PWM_RIGHT_TIMER_CHANNEL);
+
+	HAL_TIM_PWM_Start(&TIM_handle_, MOTOR_PWM_RIGHT_TIMER_CHANNEL);
+}
+
 /// === Private Definitions	========================================================================
 /// ------------------------------------------------------------------------------------------------
 /// === END OF FILE	================================================================================

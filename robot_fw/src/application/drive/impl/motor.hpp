@@ -27,6 +27,7 @@
 /// === Includes	================================================================================
 
 #include "stm32f4xx_hal.h"
+#include "portable/pinout_mapping.hpp"
 
 /// === Namespaces	================================================================================
 
@@ -49,6 +50,10 @@ public:
 
 	bool initialize();
 
+	void backward() __attribute__((always_inline));
+	void forward() __attribute__((always_inline));
+	void duty_cycle(uint8_t _duty);
+
 private:
 	///	=== Private Constants	====================================================================
 	/// === Private Declarations	================================================================
@@ -59,6 +64,18 @@ private:
 };
 
 /// === Inlines Definitions	========================================================================
+
+inline void Motor::backward()
+{
+	HAL_GPIO_WritePin(const_cast<GPIO_TypeDef*>(board::MOTOR_RIGHT_ENABLE_GPIO_PORT),
+						board::MOTOR_RIGHT_ENABLE_PIN, GPIO_PinState::GPIO_PIN_SET);
+}
+
+inline void Motor::forward()
+{
+	HAL_GPIO_WritePin(const_cast<GPIO_TypeDef*>(board::MOTOR_RIGHT_ENABLE_GPIO_PORT),
+						board::MOTOR_RIGHT_ENABLE_PIN, GPIO_PinState::GPIO_PIN_RESET);
+}
 
 ///	=== Non-Members Definitions	====================================================================
 
